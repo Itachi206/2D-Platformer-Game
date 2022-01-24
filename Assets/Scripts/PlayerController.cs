@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    
     public Animator animator;
     private Rigidbody2D rbd2d; 
     public float speed; 
@@ -13,11 +15,13 @@ public class PlayerController : MonoBehaviour
     public GameObject fallDetector;
    
     public bool isGrounded = false;
+
+    public ScoreController scoreController;
+    
     //public bool deathtrigger = false;
 
     private void Awake(){ 
         rbd2d = gameObject.GetComponent<Rigidbody2D>();
-
     }
 
     void start()
@@ -95,12 +99,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "gameover")
+        if (collision.collider.tag == "gameover")
         {
             animator.SetTrigger("DeathTrigger");
             Debug.Log("GAME OVER");
         }
     }
+
+    public void pickup()
+    {
+        Debug.Log("PLyaer score 10 points");
+        scoreController.IncreaseScore(10);
+    }
+
 }
