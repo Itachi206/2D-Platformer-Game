@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,7 +18,22 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
 
     public ScoreController scoreController;
-    
+
+    public void killPlayer()
+    {
+        Debug.Log("GAME OVER");
+        //Destroy(gameObject); 
+        animator.SetTrigger("DeathTrigger");
+        ReloadLevel();
+    }
+
+    private void ReloadLevel()
+    {
+        SceneManager.LoadScene("Start");
+
+
+    }
+
     //public bool deathtrigger = false;
 
     private void Awake(){ 
@@ -72,8 +88,7 @@ public class PlayerController : MonoBehaviour
         } else if(horizontal > 0){
             scale.x = Mathf.Abs(scale.x);
         }         
-        transform.localScale = scale;
-        
+        transform.localScale = scale;        
     }
 
     private void playerJumpAnimation(float vertical)
@@ -96,7 +111,6 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Crouch", false);
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
