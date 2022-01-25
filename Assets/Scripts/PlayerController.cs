@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void ReloadLevel()
     {
-        SceneManager.LoadScene("LobbyScene");
+        SceneManager.LoadScene("Restart");
     }
 
     //public bool deathtrigger = false;
