@@ -29,9 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void ReloadLevel()
     {
-        SceneManager.LoadScene("Start");
-
-
+        SceneManager.LoadScene("LobbyScene");
     }
 
     //public bool deathtrigger = false;
@@ -118,7 +116,8 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "gameover")
         {
             playeranimator.SetTrigger("DeathTrigger");
-            Debug.Log("GAME OVER");
+            killPlayer();
+
         }
     }
 
