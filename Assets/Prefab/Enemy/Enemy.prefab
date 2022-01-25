@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 707390483471628321}
   - component: {fileID: 1669648262}
   - component: {fileID: 9103862900545844856}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   enemyanimator: {fileID: 9103862900545844856}
   enemyDamage: 1
   healthcontroller: {fileID: 0}
+  playerController: {fileID: 0}
 --- !u!95 &9103862900545844856
 Animator:
   serializedVersion: 3
@@ -179,10 +180,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2844955832853345426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ground detection
   m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
