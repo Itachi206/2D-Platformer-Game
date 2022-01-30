@@ -800,6 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonRestart: {fileID: 1616358356}
+  ButtonQuit: {fileID: 900318074}
 --- !u!1 &878089487
 GameObject:
   m_ObjectHideFlags: 0
