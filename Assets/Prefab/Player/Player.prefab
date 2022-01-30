@@ -324,3 +324,4 @@ MonoBehaviour:
   fallDetector: {fileID: 0}
   isGrounded: 0
   scoreController: {fileID: 0}
+  gameOvercontroller: {fileID: 0}
