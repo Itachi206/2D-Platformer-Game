@@ -7,15 +7,14 @@ using UnityEngine.UI;
 public class LobbyController : MonoBehaviour
 {
     public Button ButtonPlay;
-    public Button ButtonQuit;
+    public GameObject levelSelector;
     private void Awake()
     {
         ButtonPlay.onClick.AddListener(PlayGame);
-        ButtonQuit.onClick.AddListener(PlayGame);
     }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        levelSelector.SetActive(true);
     }
 }
