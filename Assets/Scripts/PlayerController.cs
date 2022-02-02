@@ -5,15 +5,24 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    public float speed = 5; 
-    public float jumpVertical;  
     private Rigidbody2D rbd2d; 
-
+    public float speed; 
+    public float jumpVertical;
+    
+    private Vector3 respawnPoint;
+    public GameObject fallDetector;
+   
     public bool isGrounded = false;
+    //public bool deathtrigger = false;
 
     private void Awake(){ 
         rbd2d = gameObject.GetComponent<Rigidbody2D>();
 
+    }
+
+    void start()
+    {
+        respawnPoint = transform.position;
     }
     private void Update()
     {
@@ -24,7 +33,8 @@ public class PlayerController : MonoBehaviour
         MoveCharacter(horizontal, vertical); 
         PlayerMovementAnimation(horizontal); 
         playerJumpAnimation(vertical);
-        PlayerCrouchAnimation(crouch);
+        PlayerCrouchAnimation(crouch);        
+
     }
 
     private void MoveCharacter(float horizontal, float vertical){
@@ -33,11 +43,21 @@ public class PlayerController : MonoBehaviour
         position.x += horizontal * speed * Time.deltaTime;       
         transform.position = position;         
 
-        if(vertical > 0 && isGrounded == true){
-            rbd2d.AddForce(new Vector2(0,jumpVertical), ForceMode2D.Force);
-        }
-    }
+        if(vertical > 0 && isGrounded == true)
+        {
+            //rbd2d.AddForce(new Vector2(0,jumpVertical)); 
+           // rbd2d.transform 
+          
+            // position.y += jumpVertical * Time.deltaTime;   // it will only change the position of player .. player will  not go up just fall from the position
+            // transform.position = position;      
 
+            rbd2d.velocity = new Vector2(rbd2d.velocity.x, jumpVertical);
+            animator.SetTrigger("Jumptrigger");
+        }
+
+        fallDetector.transform.position = new Vector2(rbd2d.transform.position.x, fallDetector.transform.position.y);   // it will move the gameover platform with player
+    }
+   
     private void PlayerMovementAnimation(float horizontal)
     {   
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
@@ -73,5 +93,14 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Crouch", false);
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "gameover")
+        {
+            animator.SetTrigger("DeathTrigger");
+            Debug.Log("GAME OVER");
+        }
     }
 }
