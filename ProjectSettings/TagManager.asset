@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - gameover
   - Enemy
+  - UI
   layers:
   - Default
   - TransparentFX

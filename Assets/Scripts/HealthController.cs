@@ -9,6 +9,7 @@ public class HealthController : MonoBehaviour
     public int playerHealth;
     private int maximumHelath;
     [SerializeField] private Image[] hearts;
+    PlayerController player;
 
     private void Start()
     {

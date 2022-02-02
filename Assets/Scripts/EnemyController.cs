@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int enemyDamage;
     public HealthController healthcontroller;
     public PlayerController playerController;
-
+    
     void Update()
     {
         patrolEnemy();
@@ -50,24 +50,22 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.GetComponent<PlayerController>() != null)
         {
             PlayerController playercontroller = collision.gameObject.GetComponent<PlayerController>();
-            healthcontroller.playerHealth--;
-            Damage();
-            
+            Damage();            
         }
     }
 
     void Damage()
     {
         healthcontroller.playerHealth = healthcontroller.playerHealth - enemyDamage;
-
-        if (healthcontroller.playerHealth < 0)
+        if(healthcontroller.playerHealth > 0)
         {
-            playerController.killPlayer();
+            healthcontroller.UpdateHealth();
         }
         else
         {
             healthcontroller.UpdateHealth();
+            playerController.killPlayer();
         }
-    
+        
     }
 }

@@ -18,20 +18,15 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
 
     public ScoreController scoreController;
+    public GameOverController gameOvercontroller;
 
     public void killPlayer()
     {
         Debug.Log("GAME OVER");
         //Destroy(gameObject); 
         playeranimator.SetTrigger("DeathTrigger");
-        ReloadLevel();
-    }
-
-    private void ReloadLevel()
-    {
-        SceneManager.LoadScene("Start");
-
-
+        gameOvercontroller.PlayerDied();                                        //gameovercontroller playerdied function is called  
+        this.enabled = false;                                                   //this will disable the script attach to the player because after game is over player should not move
     }
 
     //public bool deathtrigger = false;
@@ -113,18 +108,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)       
     {
-        if (collision.collider.tag == "gameover")
+        if (collision.collider.tag == "gameover")                   //after player fall down from the platform, player should die
         {
             playeranimator.SetTrigger("DeathTrigger");
-            Debug.Log("GAME OVER");
+            killPlayer();
         }
     }
 
     public void pickup()
     {
-        Debug.Log("Player score 10 points");
+        Debug.Log("Player score 10 points");                        // after player collect the key, the score should increase by 10 points
         scoreController.IncreaseScore(10);
     }
 
