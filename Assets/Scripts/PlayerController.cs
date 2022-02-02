@@ -5,36 +5,73 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    // Start is called before the first frame update
-    void Start()
+    public float speed = 5; 
+    public float jumpVertical;  
+    private Rigidbody2D rbd2d; 
+
+    public bool isGrounded = false;
+
+    private void Awake(){ 
+        rbd2d = gameObject.GetComponent<Rigidbody2D>();
+
+    }
+    private void Update()
     {
+        float horizontal = Input.GetAxisRaw("Horizontal");  
+        float vertical = Input.GetAxisRaw("Jump");
+        bool crouch = Input.GetKeyDown(KeyCode.LeftControl);
+        
+        MoveCharacter(horizontal, vertical); 
+        PlayerMovementAnimation(horizontal); 
+        playerJumpAnimation(vertical);
+        PlayerCrouchAnimation(crouch);
+    }
+
+    private void MoveCharacter(float horizontal, float vertical){
+        Vector3 position = transform.position;
+        //(distance / time)  * (1 / frames per second) 
+        position.x += horizontal * speed * Time.deltaTime;       
+        transform.position = position;         
+
+        if(vertical > 0 && isGrounded == true){
+            rbd2d.AddForce(new Vector2(0,jumpVertical), ForceMode2D.Force);
+        }
+    }
+
+    private void PlayerMovementAnimation(float horizontal)
+    {   
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        Vector3 scale = transform.localScale;
+
+        if(horizontal < 0){
+            scale.x = -1f * Mathf.Abs(scale.x);
+        } else if(horizontal > 0){
+            scale.x = Mathf.Abs(scale.x);
+        }         
+        transform.localScale = scale;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void playerJumpAnimation(float vertical)
     {
-        float speed = Input.GetAxisRaw("Horizontal");
+        if(vertical > 0)
+        {
+            animator.SetBool("Jump", true);
+        } else
+        {
+            animator.SetBool("Jump", false);
+        }
+    }
 
-        animator.SetFloat("Speed", Mathf.Abs(speed));
-        Vector3 scale = transform.localScale;
-
-        if(speed < 0){
-            scale.x = -1f * Mathf.Abs(scale.x);
-        } else if(speed > 0){
-            scale.x = Mathf.Abs(scale.x);
-        } 
-        
-        transform.localScale = scale;
-
-
-        bool crouch = Input.GetKeyDown(KeyCode.LeftControl);
-        animator.SetBool("Crouch", crouch);
-
-        
-
-        
-
+    private void PlayerCrouchAnimation(bool crouch)
+    {
+        if(crouch)
+        {
+            animator.SetBool("Crouch", true);
+        } else
+        {
+            animator.SetBool("Crouch", false);
+        }
 
     }
 }
