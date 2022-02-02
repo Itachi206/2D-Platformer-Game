@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     
-    public Animator animator;
+    public Animator playeranimator;
     private Rigidbody2D rbd2d; 
     public float speed; 
     public float jumpVertical;
@@ -17,7 +18,22 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
 
     public ScoreController scoreController;
-    
+
+    public void killPlayer()
+    {
+        Debug.Log("GAME OVER");
+        //Destroy(gameObject); 
+        playeranimator.SetTrigger("DeathTrigger");
+        ReloadLevel();
+    }
+
+    private void ReloadLevel()
+    {
+        SceneManager.LoadScene("Start");
+
+
+    }
+
     //public bool deathtrigger = false;
 
     private void Awake(){ 
@@ -56,7 +72,7 @@ public class PlayerController : MonoBehaviour
             // transform.position = position;      
 
             rbd2d.velocity = new Vector2(rbd2d.velocity.x, jumpVertical);
-            animator.SetTrigger("Jumptrigger");
+            playeranimator.SetTrigger("Jumptrigger");
         }
 
         fallDetector.transform.position = new Vector2(rbd2d.transform.position.x, fallDetector.transform.position.y);   // it will move the gameover platform with player
@@ -64,7 +80,7 @@ public class PlayerController : MonoBehaviour
    
     private void PlayerMovementAnimation(float horizontal)
     {   
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        playeranimator.SetFloat("Speed", Mathf.Abs(horizontal));
         Vector3 scale = transform.localScale;
 
         if(horizontal < 0){
@@ -72,18 +88,17 @@ public class PlayerController : MonoBehaviour
         } else if(horizontal > 0){
             scale.x = Mathf.Abs(scale.x);
         }         
-        transform.localScale = scale;
-        
+        transform.localScale = scale;        
     }
 
     private void playerJumpAnimation(float vertical)
     {
         if(vertical > 0)
         {
-            animator.SetBool("Jump", true);
+            playeranimator.SetBool("Jump", true);
         } else
         {
-            animator.SetBool("Jump", false);
+            playeranimator.SetBool("Jump", false);
         }
     }
 
@@ -91,26 +106,25 @@ public class PlayerController : MonoBehaviour
     {
         if(crouch)
         {
-            animator.SetBool("Crouch", true);
+            playeranimator.SetBool("Crouch", true);
         } else
         {
-            animator.SetBool("Crouch", false);
+            playeranimator.SetBool("Crouch", false);
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "gameover")
         {
-            animator.SetTrigger("DeathTrigger");
+            playeranimator.SetTrigger("DeathTrigger");
             Debug.Log("GAME OVER");
         }
     }
 
     public void pickup()
     {
-        Debug.Log("PLyaer score 10 points");
+        Debug.Log("Player score 10 points");
         scoreController.IncreaseScore(10);
     }
 
